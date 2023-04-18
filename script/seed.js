@@ -1,29 +1,75 @@
-'use strict'
+"use strict";
 
-const {db, models: {User} } = require('../server/db')
+const {
+  db,
+  models: { User, Product, Order, OrderProduct },
+} = require("../server/db");
 
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
 async function seed() {
-  await db.sync({ force: true }) // clears db and matches models to tables
-  console.log('db synced!')
+  await db.sync({ force: true }); // clears db and matches models to tables
+  console.log("db synced!");
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
-  ])
+    User.create({
+      username: "cody",
+      password: "123",
+      email: "cody@fullstack.com",
+    }),
+    User.create({
+      username: "murphy",
+      password: "123",
+      email: "murphy@fullstack.com",
+    }),
+  ]);
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  const products = await Promise.all([
+    Product.create({
+      name: "Dress Shoes",
+      type: "Formal",
+      material: "Leather",
+      gender: "M",
+      price: 199.99,
+      size: "11",
+    }),
+    Product.create({
+      name: "Running Shoes",
+      type: "Athletic",
+      material: "Nylon",
+      gender: "W",
+      price: 79.99,
+      size: "9.5",
+    }),
+    Product.create({
+      name: "Cozy Socks",
+      type: "Casual",
+      material: "Cotton",
+      gender: "M",
+      price: 19.99,
+      size: "M",
+    }),
+    Product.create({
+      name: "Dress Socks",
+      type: "Formal",
+      material: "Wool",
+      gender: "M",
+      price: 19.99,
+      size: "L",
+    }),
+  ]);
+
+  console.log(`seeded ${users.length} users`);
+  console.log(`seeded successfully`);
   return {
     users: {
       cody: users[0],
-      murphy: users[1]
-    }
-  }
+      murphy: users[1],
+    },
+  };
 }
 
 /*
@@ -32,16 +78,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log('seeding...')
+  console.log("seeding...");
   try {
-    await seed()
+    await seed();
   } catch (err) {
-    console.error(err)
-    process.exitCode = 1
+    console.error(err);
+    process.exitCode = 1;
   } finally {
-    console.log('closing db connection')
-    await db.close()
-    console.log('db connection closed')
+    console.log("closing db connection");
+    await db.close();
+    console.log("db connection closed");
   }
 }
 
@@ -51,8 +97,8 @@ async function runSeed() {
   any errors that might occur inside of `seed`.
 */
 if (module === require.main) {
-  runSeed()
+  runSeed();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+module.exports = seed;
