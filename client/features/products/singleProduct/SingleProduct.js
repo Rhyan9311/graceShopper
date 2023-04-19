@@ -12,20 +12,36 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const singleProduct = useSelector(selectSingleProduct);
 
+  //  const handleSubmit = useSelect
+  const onSubmitHandle = (evt) => {
+    evt.preventDefault();
+    // dispatch(addToCartAsync({ name, address, imageUrl, description }));
+    console.log(evt.target.name, evt.target.qty);
+  };
+
   useEffect(() => {
     dispatch(fetchSingleProduct(productId));
   }, [dispatch]);
 
-  const { name, type, material, gender, price, size } = singleProduct.info;
+  const { name, imageUrl, type, material, gender, price, size, qty } =
+    singleProduct.info;
 
   return (
     <div className="singleProduct">
       <h1>Name: {name}</h1>
+      <img src={imageUrl} alt={name} />
       <p>Type: {type}</p>
       <p>Material: {material}</p>
       <p>Gender: {gender}</p>
       <p>Price: {price}</p>
       <p>Size: {size}</p>
+      <p>Quantity: {qty}</p>
+      <button
+        type="button"
+        onClick={() => dispatch(fetchSingleProduct(productId))}
+      >
+        Add To Cart
+      </button>
     </div>
   );
 };
