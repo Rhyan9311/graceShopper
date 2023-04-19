@@ -4,7 +4,7 @@
 
 ### As a customer/visitor, I want to be able to:
 
-- [] view all available products so I can pick from a variety.
+- [x] view all available products so I can pick from a variety.
 - [] view a single product so I can see more details.
 - [] add a product to my cart so I can collect my desired products in one place.
 - [] edit my cart if I change my mind:
@@ -12,14 +12,14 @@
   - [] remove a product in my cart.
   - [] _No one else should be able to edit my cart except me._
 - [] "checkout" the items in my cart so I can purchase my desired goods.
-  - [] _Think of a typical user experience on popular websites from a guest user and logged-in user perspective._
-  - [] _You can just start with by simulating the experience of checking out with a simple confirmation page._
-- [] create an account so I can have a logged-in experience.
+  - _Think of a typical user experience on popular websites from a guest user and logged-in user perspective._
+  - _You can just start with by simulating the experience of checking out with a simple confirmation page._
+- [x] create an account so I can have a logged-in experience.
 
-### As a logged- []in customer, I want to be able to:
+### As a logged-in customer, I want to be able to:
 
 - [] have a persistent cart so I can revisit and pick up where I left off.
-  - [] _Logged- []in- []user across multiple devices: I'm logged in on my mobile device and add some items to my cart. When I open the browser on my laptop and log in, I want to see those items in my cart._
+  - [] _Logged-in-user across multiple devices: I'm logged in on my mobile device and add some items to my cart. When I open the browser on my laptop and log in, I want to see those items in my cart._
   - [] _No one else should be able to edit my cart except me._
 
 ### As an administrator, I want to be able to:

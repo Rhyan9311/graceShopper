@@ -31,6 +31,11 @@ const Product = db.define("product", {
     allowNull: false,
     defaultValue: 1,
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue:
+      "https://static.vecteezy.com/system/resources/thumbnails/000/072/997/small/colorful-shoes-vector.jpg",
+  },
 });
 
 module.exports = Product;
