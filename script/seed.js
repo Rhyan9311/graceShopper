@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Product, Order, OrderProduct },
+  models: { User, Product, Order, Cart },
 } = require("../server/db");
 
 /**
@@ -67,6 +67,30 @@ async function seed() {
       size: "L",
     }),
   ]);
+
+  const carts = await Promise.all([
+    Cart.create({
+      userId: users[0].id,
+    }),
+    Cart.create({
+      userId: users[1].id,
+    }),
+  ]);
+
+  const orders = await Promise.all([
+    Order.create({
+      userId: users[0].id,
+      fulfilled: true,
+    }),
+    Order.create({
+      userId: users[1].id,
+      fulfilled: false,
+    }),
+  ]);
+
+  // await orders[0].items.push(products[0]);
+  await carts[1].addProduct(products[1]);
+  await carts[1].addProduct(products[2]);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
