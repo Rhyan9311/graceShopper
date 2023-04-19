@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  models: { User, Cart, Product },
+  models: { User, Cart, Product, CartProduct },
 } = require("../db");
 module.exports = router;
 
@@ -17,16 +17,15 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 
-  router.get("/:id", async (req, res, next) => {
+  router.get("/:id/carts", async (req, res, next) => {
     try {
-      const userCart = await Cart.findAll(
-        { where: { userId: req.params.id } },
-        {
-          include: {
-            model: Product, //This include doesn't seem to do anything yet
-          },
-        }
-      );
+      const userCart = await Cart.findAll({
+        where: { userId: req.params.id },
+        include: {
+          model: Product,
+          through: CartProduct,
+        },
+      });
       res.json(userCart);
     } catch (error) {
       next(error);
