@@ -1,28 +1,33 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchSingleProduct } from "./singleProductSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const singleProduct = () => {
+import {
+  selectSingleProduct,
+  fetchSingleProduct,
+} from "../singleProduct/singleProductSlice";
+
+const SingleProduct = () => {
+  const { productId } = useParams();
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const singleProduct = useSelector(selectSingleProduct);
 
   useEffect(() => {
-    dispatch(fetchSingleProduct(id));
-  }, [dispatch, id]);
+    dispatch(fetchSingleProduct(productId));
+  }, [dispatch]);
 
-  const product = useSelector((state) => state.singleProduct);
+  const { name, type, material, gender, price, size } = singleProduct.info;
 
   return (
     <div className="singleProduct">
-      <h1>Name: {product?.name}</h1>
-      <p>Type: {product?.type}</p>
-      <p>Material: {product?.material}</p>
-      <p>Gender: {product?.gender}</p>
-      <p>Price: {product?.price}</p>
-      <p>Size: {product?.size}</p>
+      <h1>Name: {name}</h1>
+      <p>Type: {type}</p>
+      <p>Material: {material}</p>
+      <p>Gender: {gender}</p>
+      <p>Price: {price}</p>
+      <p>Size: {size}</p>
     </div>
   );
 };
 
-export default singleProduct;
+export default SingleProduct;
