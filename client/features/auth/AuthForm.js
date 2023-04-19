@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authenticate } from "../../app/store";
 
@@ -8,7 +8,7 @@ import { authenticate } from "../../app/store";
   Props for Sign up: name="signup", displayName="Sign Up"
 **/
 
-const AuthForm = ({ name, displayName, email }) => {
+const AuthForm = ({ name, displayName }) => {
   const { error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -17,10 +17,10 @@ const AuthForm = ({ name, displayName, email }) => {
     const formName = evt.target.name;
     const username = evt.target.username.value;
     const password = evt.target.password.value;
-    const email = evt.target.email.value;
     dispatch(authenticate({ username, password, email, method: formName }));
   };
 
+  const [email, setEmail] = useState("");
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
@@ -41,7 +41,12 @@ const AuthForm = ({ name, displayName, email }) => {
             <label htmlFor="email">
               <small>Email</small>
             </label>
-            <input name="email" type="email" />
+            <input
+              name="email"
+              type="email"
+              value={email}
+              onChange={(evt) => setEmail(evt.target.value)}
+            />
           </div>
         )}
         <div>
