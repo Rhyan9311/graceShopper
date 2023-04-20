@@ -3,24 +3,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, selectCart } from "./cartSlice";
 
 
-
 const Cart = () => {
   const dispatch = useDispatch();
   dispatch(fetchCart())
   const userCart = useSelector(selectCart)
+
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  const {id, fulfilled, createdAt, products}=userCart
+  function handleDelete (evt){
+    console.log('delete'+ evt.target)
+    // dispatch(clearCart)
+   //need to use clear cart for the delete functionality
+  }
+  const {id, fulfilled, createdAt, products} = userCart
   return (
     <div id="userCartCard">
       <h1>Cart</h1>
       <span>Cart ID:{id}</span>
       <span>Submitted:{fulfilled}</span>
       <span>Cart since:{createdAt}</span>
-
-      <div>products:{products && products.length ?
+      <div id="productsInCart">products:{products && products.length ?
         products.map((prod)=>{
         return (<div key={`prod inCart:${prod.id}`}>
                   <Link to={`/products/${prod.id}`}>
@@ -30,6 +34,7 @@ const Cart = () => {
                       <small>{prod.qty+ 'at'+ prod.price}</small>
                     </div>
                   </Link>
+                  <button id="cartDeleteItemBtn" onClick={handleDelete}>x</button>
                 </div>
         )}): 'empty'}
       </div>

@@ -2,12 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchCart = createAsyncThunk("GetCart", async () => {
-  const { data } = await axios.post("/api/users/:id/cart");
+  const { data } = await axios.post("/api/users/:id/carts");
   return data;
 });
 export const addCartProduct = createAsyncThunk("addToCart", async (product) => {
-  const { data } = await axios.post("/api/users/:id/cart", product);
-  return data;
+  const { data } = await axios.post("/api/users/:id/cart/addProd");
+  return product;
 });
 
 const cartSlice = createSlice({

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import { addCartProduct } from "../../cart/cartSlice";
 import {
   selectSingleProduct,
   fetchSingleProduct,
@@ -15,15 +15,15 @@ const SingleProduct = () => {
   //  const handleSubmit = useSelect
   const onSubmitHandle = (evt) => {
     evt.preventDefault();
-    // dispatch(addToCartAsync({ name, address, imageUrl, description }));
-    console.log(evt.target.name, evt.target.qty);
+    dispatch(addCartProduct({productId, userID  }));
+    // console.log('hello'+ singleProduct);
   };
 
   useEffect(() => {
     dispatch(fetchSingleProduct(productId));
   }, [dispatch]);
 
-  const { name, imageUrl, type, material, gender, price, size, qty } =
+  const { id ,name, imageUrl, type, material, gender, price, size, qty } =
     singleProduct.info;
 
   return (
@@ -38,7 +38,7 @@ const SingleProduct = () => {
       <p>Quantity: {qty}</p>
       <button
         type="button"
-        onClick={() => dispatch(fetchSingleProduct(productId))}
+        onClick={onSubmitHandle}
       >
         Add To Cart
       </button>

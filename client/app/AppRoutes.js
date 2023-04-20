@@ -32,7 +32,7 @@ const AppRoutes = () => {
             path="/products/:productId/"
             element={<SingleProduct />}
           />
-          <Route to="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       ) : (
         <Routes>
@@ -54,7 +54,7 @@ const AppRoutes = () => {
             path="/products/:productId/"
             element={<SingleProduct />}
           />
-          <Route to="/cart" element={<Cart />} />
+          <Route  path="/cart" element={<Cart />} />
         </Routes>
       )}
     </div>
