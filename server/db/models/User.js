@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const Cart = require("./Cart");
 
 const SALT_ROUNDS = 5;
 
@@ -79,6 +80,12 @@ const hashPassword = async (user) => {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }
 };
+
+User.afterCreate(async (user) => {
+  const cart = await Cart.create();
+
+  cart.setUser(user);
+});
 
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
