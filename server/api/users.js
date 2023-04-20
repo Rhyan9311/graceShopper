@@ -26,7 +26,7 @@ router.get("/", async (req, res, next) => {
           through: CartProduct,
         },
       });
-      res.json(userCart);
+      res.json(userCart[0]);
     } catch (error) {
       next(error);
     }
