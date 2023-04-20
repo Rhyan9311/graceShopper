@@ -79,7 +79,6 @@ async function seed() {
 
   await carts[1].addProduct(products[1]);
   await carts[1].addProduct(products[2]);
-  await carts[1].addProduct(products[2]);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
