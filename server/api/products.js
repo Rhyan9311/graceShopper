@@ -21,3 +21,21 @@ router.get("/:productId", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post("/:productId/cart", async (req, res, next) => {
+  try {
+    const productId = req.params.id.productId;
+    // const userId = req.user.id;
+    const product = await Product.findByPk(productId);
+
+    if (!product) {
+      res.status(404).send("Product not found");
+      return;
+    }
+
+    await req.user.addProductToCart(productId);
+    res.json({ message: "Product added to cart" });
+  } catch (error) {
+    next(error);
+  }
+});

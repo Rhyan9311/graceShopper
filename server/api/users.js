@@ -4,12 +4,33 @@ const {
 } = require("../db");
 module.exports = router;
 
+
+User.prototype.addProductToCart = async function (productId) {
+  try {
+    const cart = await Cart.findOne({
+      where: { userId: this.id },
+      // include: {
+      //   model: Product,
+      //   through: CartProduct,
+      // },
+    });
+
+    const product = await Product.findByPk(productId);
+
+    if (product) {
+      await cart.addProduct(product);
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 router.get("/", async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and username fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
       attributes: ["id", "username"],
     });
     res.json(users);
@@ -32,12 +53,12 @@ router.get("/", async (req, res, next) => {
     }
   });
 });
-router.post("/:id/cart/add", async (req, res, next) => {
-  try {
-    //cant quite figure out how to add or create a product in the cart need fresh eyes!!!!!!!!!!!!!
-    res.status(201).send(await CartProduct.create(req.body));
-    //send(await Cart[req.params.id].addProduct(Product[req.body.id]));
-  } catch (error) {
-    next(error);
-  }
-});
+// router.post("/:id/cart/add", async (req, res, next) => {
+//   try {
+//     //cant quite figure out how to add or create a product in the cart need fresh eyes!!!!!!!!!!!!!
+//     res.status(201).send(await CartProduct.create(req.body));
+//     //send(await Cart[req.params.id].addProduct(Product[req.body.id]));
+//   } catch (error) {
+//     next(error);
+//   }
+// });

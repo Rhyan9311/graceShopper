@@ -15,7 +15,7 @@ const SingleProduct = () => {
   //  const handleSubmit = useSelect
   const onSubmitHandle = (evt) => {
     evt.preventDefault();
-    dispatch(addCartProduct({productId, userID  }));
+    dispatch(addCartProduct(productId));
     // console.log('hello'+ singleProduct);
   };
 
@@ -23,7 +23,7 @@ const SingleProduct = () => {
     dispatch(fetchSingleProduct(productId));
   }, [dispatch]);
 
-  const { id ,name, imageUrl, type, material, gender, price, size, qty } =
+  const { name, imageUrl, type, material, gender, price, size, qty } =
     singleProduct.info;
 
   return (
@@ -36,10 +36,7 @@ const SingleProduct = () => {
       <p>Price: {price}</p>
       <p>Size: {size}</p>
       <p>Quantity: {qty}</p>
-      <button
-        type="button"
-        onClick={onSubmitHandle}
-      >
+      <button type="button" onClick={onSubmitHandle}>
         Add To Cart
       </button>
     </div>

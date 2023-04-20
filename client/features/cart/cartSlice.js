@@ -5,10 +5,14 @@ export const fetchCart = createAsyncThunk("GetCart", async () => {
   const { data } = await axios.post("/api/users/:id/carts");
   return data;
 });
-export const addCartProduct = createAsyncThunk("addToCart", async (product) => {
-  const { data } = await axios.post("/api/users/:id/cart/addProd");
-  return product;
-});
+export const addCartProduct = createAsyncThunk(
+  "addToCart",
+  async (productId) => {
+    const { data } = await axios.post(`/api/products/${productId}/cart`);
+    console.log(data);
+    return data;
+  }
+);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -23,17 +27,18 @@ const cartSlice = createSlice({
       return action.payload;
     });
     builder.addCase(fetchCart.rejected, (state, action) => {
-      return Error('Trouble Fetching Your Cart');
+      return Error("Trouble Fetching Your Cart");
     });
     builder.addCase(addCartProduct.fulfilled, (state, action) => {
       return action.payload;
     });
     builder.addCase(addCartProduct.rejected, (state, action) => {
-      return Error('Trouble This Product to a Cart Product');    });
+      return Error("Trouble This Product to a Cart Product");
+    });
   },
 });
-export const selectCart = (state) =>{
+export const selectCart = (state) => {
   return state.cart;
-}
+};
 
 export default cartSlice.reducer;
