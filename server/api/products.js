@@ -22,6 +22,7 @@ router.get("/:productId", async (req, res, next) => {
   }
 });
 
+<<<<<<< Updated upstream
 router.post("/:productId/cart", async (req, res, next) => {
   try {
     const productId = req.params.id.productId;
@@ -35,6 +36,12 @@ router.post("/:productId/cart", async (req, res, next) => {
 
     await req.user.addProductToCart(productId);
     res.json({ message: "Product added to cart" });
+=======
+router.put("/:productId", async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId);
+    res.send(await product.update({ qty: req.body.qty }));
+>>>>>>> Stashed changes
   } catch (error) {
     next(error);
   }
