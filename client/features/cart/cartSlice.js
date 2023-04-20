@@ -1,62 +1,39 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const addToCartAsync = createAsyncThunk("addToCart", async (product) => {
-  const { data } = await axios.post("/api/users/:id", product);
+export const fetchCart = createAsyncThunk("GetCart", async () => {
+  const { data } = await axios.post("/api/users/:id/carts");
   return data;
+});
+export const addCartProduct = createAsyncThunk("addToCart", async (product) => {
+  const { data } = await axios.post("/api/users/:id/cart/addProd");
+  return product;
 });
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: [],
+  initialState: {},
   reducers: {
-    addToCart: (state, action) => {
-      const item = state.find((item) => item.id === action.payload.id);
-      if (item) {
-        item.quantity += 1;
-      } else {
-        state.push(action.payload);
-      }
-      // localStorage.setItem("cartItems", JSON.stringify(state));
-      return state;
-    },
-    removeFromCart: (state, action) => {
-      return state.filter((item) => item.id !== action.payload);
-      // state.splice(action.payload, 1);
-      // // localStorage.setItem("cartItems", JSON.stringify(state));
-      // return state;
-    },
     clearCart: (state) => {
-      return [];
+      return {};
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(addToCart.fulfilled, (state, action) => {
-      state.push(action.payload);
-      localStorage.setItem("cartItems", JSON.stringify(state));
+    builder.addCase(fetchCart.fulfilled, (state, action) => {
+      return action.payload;
     });
-    //.addCase(removeFromCart.fulfilled, (state, action) => {
-    // state.splice(action.payload, 1);
-    // localStorage.setItem("cartItems", JSON.stringify(state));
-    // })
-    //.addCase(removeFromCart.rejected, (state, action) => {
-    // state.splice(action.payload, 1);
-    // localStorage.setItem("cartItems", JSON.stringify(state));
-    // });
+    builder.addCase(fetchCart.rejected, (state, action) => {
+      return Error('Trouble Fetching Your Cart');
+    });
+    builder.addCase(addCartProduct.fulfilled, (state, action) => {
+      return action.payload;
+    });
+    builder.addCase(addCartProduct.rejected, (state, action) => {
+      return Error('Trouble This Product to a Cart Product');    });
   },
-  // extraReducers: {
-  //   [addToCart.pending]: (state, action) => {
-  //     state.push(action.payload);
-  //     // localStorage.setItem("cartItems", JSON.stringify(state));
-  //     },
-  //   [addToCart.rejected]: (state, action) => {
-  //     state.push(action.payload);
-  //     // localStorage.setItem("cartItems", JSON.stringify(state));
-  //     },
-  // },
-  // },
 });
-
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const selectCart = (state) =>{
+  return state.cart;
+}
 
 export default cartSlice.reducer;

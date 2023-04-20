@@ -1,39 +1,45 @@
-import React, {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProducts, selectSingleProducts, fetchSingleProduct } from "../products/allProducts/allProductsSlice";
+import { fetchCart, selectCart } from "./cartSlice";
 
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
-  // const products = useSelector(selectProducts);
-  // const singleProducts = useSelector(selectSingleProducts);
-  // console.log(singleProducts);
+  dispatch(fetchCart())
+  const userCart = useSelector(selectCart)
 
   useEffect(() => {
-    dispatch(fetchSingleProduct(id));
-  }, [dispatch, id]);
+    dispatch(fetchCart());
+  }, [dispatch]);
+
+  function handleDelete (evt){
+    console.log('delete'+ evt.target)
+    // dispatch(clearCart)
+   //need to use clear cart for the delete functionality
+  }
+  const {id, fulfilled, createdAt, products} = userCart
   return (
-    <div>
+    <div id="userCartCard">
       <h1>Cart</h1>
-      {/* <CartList products={products} />
-      <CartSingle products={singleProducts} /> */}
+      <span>Cart ID:{id}</span>
+      <span>Submitted:{fulfilled}</span>
+      <span>Cart since:{createdAt}</span>
+      <div id="productsInCart">products:{products && products.length ?
+        products.map((prod)=>{
+        return (<div key={`prod inCart:${prod.id}`}>
+                  <Link to={`/products/${prod.id}`}>
+                    <div id= 'prodCard'>
+                      <img id='tinyImg' src={prod.imageUrl}/>
+                      <small>{prod.name}</small>
+                      <small>{prod.qty+ 'at'+ prod.price}</small>
+                    </div>
+                  </Link>
+                  <button id="cartDeleteItemBtn" onClick={handleDelete}>x</button>
+                </div>
+        )}): 'empty'}
+      </div>
     </div>
   );
-
-  // const { id } = useParams();
-  // const products = useSelector(selectProducts);
-  // const singleProducts = useSelector(selectSingleProducts);
-  // console.log(singleProducts);
-  // useEffect(() => {
-  //   dispatch(fetchSingleProduct(id));
-  // }, [dispatch, id]);
-  // return (
-  //   <div>
-  //     <h1>Cart</h1>
-  //   </div>
-  // );
 };
 
 export default Cart;

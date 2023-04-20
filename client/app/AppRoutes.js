@@ -6,6 +6,7 @@ import Home from "../features/home/Home";
 import SingleProduct from "../features/products/singleProduct/SingleProduct";
 import { me } from "./store";
 import AllProducts from "../features/products/allProducts/AllProducts";
+import Cart from "../features/cart/Cart";
 
 /**
  * COMPONENT
@@ -31,6 +32,7 @@ const AppRoutes = () => {
             path="/products/:productId/"
             element={<SingleProduct />}
           />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       ) : (
         <Routes>
@@ -52,6 +54,7 @@ const AppRoutes = () => {
             path="/products/:productId/"
             element={<SingleProduct />}
           />
+          <Route  path="/cart" element={<Cart />} />
         </Routes>
       )}
     </div>

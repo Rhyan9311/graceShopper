@@ -26,9 +26,18 @@ router.get("/", async (req, res, next) => {
           through: CartProduct,
         },
       });
-      res.json(userCart);
+      res.json(userCart[0]);
     } catch (error) {
       next(error);
     }
   });
+});
+router.post("/:id/cart/add", async (req, res, next) => {
+  try {
+    //cant quite figure out how to add or create a product in the cart need fresh eyes!!!!!!!!!!!!!
+    res.status(201).send(await CartProduct.create(req.body));
+    //send(await Cart[req.params.id].addProduct(Product[req.body.id]));
+  } catch (error) {
+    next(error);
+  }
 });
