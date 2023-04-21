@@ -38,14 +38,17 @@ const Cart = () => {
                   <Link to={`/products/${prod.id}`}>
                     <div id="prodCard">
                       <img id="tinyImg" src={prod.imageUrl} />
-                      <small>{prod.name}</small>
-                      <small>
-                        {prod.cartproduct.qty + "at" + "$" + prod.price}
-                      </small>
+                      <div>
+                        <p id="prodName">{prod.name}</p>
+                        <p id="prodPrice">
+                          {prod.cartproduct.qty} Total: $
+                          {prod.cartproduct.qty * prod.price}
+                        </p>
+                      </div>
                     </div>
                   </Link>
                   <button id="cartDeleteItemBtn" onClick={handleDelete}>
-                    x
+                    Remove
                   </button>
                 </div>
               );
