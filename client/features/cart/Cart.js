@@ -23,6 +23,11 @@ const Cart = () => {
 
   const { id, fulfilled, createdAt, products } = singleCart.info;
 
+  const totalCost = products?.reduce(
+    (total, prod) => total + prod.cartproduct.qty * prod.price,
+    0
+  );
+
   return (
     <div id="userCartCard">
       <h1>Cart</h1>
@@ -54,6 +59,12 @@ const Cart = () => {
               );
             })
           : "empty"}
+      </div>
+      <div id="cartTotal">
+        <p>Total Cost: ${totalCost}</p>
+        <Link to="/checkout">
+          <button id="checkoutBtn">Checkout</button>
+        </Link>
       </div>
     </div>
   );
