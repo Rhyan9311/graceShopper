@@ -27,6 +27,21 @@ User.prototype.addProductToCart = async function (productId) {
   }
 };
 
+router.get("/:userId/cart", async (req, res, next) => {
+  try {
+    const userCart = await Cart.findAll({
+      where: { userId: req.params.userId },
+      include: {
+        model: Product,
+        through: CartProduct,
+      },
+    });
+    res.json(userCart[0]);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/", async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -36,21 +51,6 @@ router.get("/", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
-  router.get("/:userId/cart", async (req, res, next) => {
-    try {
-      const userCart = await Cart.findAll({
-        where: { userId: req.params.userId },
-        include: {
-          model: Product,
-          through: CartProduct,
-        },
-      });
-      res.json(userCart[0]);
-    } catch (error) {
-      next(error);
-    }
-  });
 });
 // router.post("/:id/cart/add", async (req, res, next) => {
 //   try {
