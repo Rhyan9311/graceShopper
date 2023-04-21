@@ -12,7 +12,7 @@ const Cart = () => {
   const singleCart = useSelector(selectCart);
 
   useEffect(() => {
-    dispatch(fetchCart(1));
+    dispatch(fetchCart(userId));
   }, [dispatch]);
 
   function handleDelete(evt) {
