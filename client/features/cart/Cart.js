@@ -39,7 +39,9 @@ const Cart = () => {
                     <div id="prodCard">
                       <img id="tinyImg" src={prod.imageUrl} />
                       <small>{prod.name}</small>
-                      <small>{prod.qty + "at" + prod.price}</small>
+                      <small>
+                        {prod.cartproduct.qty + "at" + "$" + prod.price}
+                      </small>
                     </div>
                   </Link>
                   <button id="cartDeleteItemBtn" onClick={handleDelete}>
