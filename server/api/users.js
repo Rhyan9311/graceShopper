@@ -4,7 +4,6 @@ const {
 } = require("../db");
 module.exports = router;
 
-
 User.prototype.addProductToCart = async function (productId) {
   try {
     const cart = await Cart.findOne({
@@ -38,10 +37,10 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 
-  router.get("/:id/carts", async (req, res, next) => {
+  router.get("/:userId/cart", async (req, res, next) => {
     try {
       const userCart = await Cart.findAll({
-        where: { userId: req.params.id },
+        where: { userId: req.params.userId },
         include: {
           model: Product,
           through: CartProduct,
@@ -62,3 +61,15 @@ router.get("/", async (req, res, next) => {
 //     next(error);
 //   }
 // });
+
+router.get("/:id/cartproduct", async (req, res, next) => {
+  try {
+    const cartProducts = await CartProduct.findAll({
+      where: { cartId: req.params.id },
+      include: { model: Product },
+    });
+    res.json(cartProducts);
+  } catch (err) {
+    next(err);
+  }
+});

@@ -1,47 +1,57 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, selectCart } from "./cartSlice";
-
+import { Link } from "react-router-dom";
 
 const Cart = () => {
+  const { userId } = useParams();
+  console.log(useParams());
+  console.log(userId);
   const dispatch = useDispatch();
-  dispatch(fetchCart())
-  const userCart = useSelector(selectCart)
+  const singleCart = useSelector(selectCart);
 
   useEffect(() => {
-    dispatch(fetchCart());
+    dispatch(fetchCart(1));
   }, [dispatch]);
 
-  function handleDelete (evt){
-    console.log('delete'+ evt.target)
+  function handleDelete(evt) {
+    console.log("delete" + evt.target);
     // dispatch(clearCart)
-   //need to use clear cart for the delete functionality
+    //need to use clear cart for the delete functionality
   }
-  const {id, fulfilled, createdAt, products} = userCart
+
+  const { id, fulfilled, createdAt, products } = singleCart.info;
+
   return (
     <div id="userCartCard">
       <h1>Cart</h1>
       <span>Cart ID:{id}</span>
       <span>Submitted:{fulfilled}</span>
       <span>Cart since:{createdAt}</span>
-      <div id="productsInCart">products:{products && products.length ?
-        products.map((prod)=>{
-        return (<div key={`prod inCart:${prod.id}`}>
+      <div id="productsInCart">
+        products:
+        {products && products.length
+          ? products.map((prod) => {
+              return (
+                <div key={`prod inCart:${prod.id}`}>
                   <Link to={`/products/${prod.id}`}>
-                    <div id= 'prodCard'>
-                      <img id='tinyImg' src={prod.imageUrl}/>
+                    <div id="prodCard">
+                      <img id="tinyImg" src={prod.imageUrl} />
                       <small>{prod.name}</small>
-                      <small>{prod.qty+ 'at'+ prod.price}</small>
+                      <small>{prod.qty + "at" + prod.price}</small>
                     </div>
                   </Link>
-                  <button id="cartDeleteItemBtn" onClick={handleDelete}>x</button>
+                  <button id="cartDeleteItemBtn" onClick={handleDelete}>
+                    x
+                  </button>
                 </div>
-        )}): 'empty'}
+              );
+            })
+          : "empty"}
       </div>
     </div>
   );
 };
 
 export default Cart;
-
-

@@ -1,10 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchCart = createAsyncThunk("GetCart", async () => {
-  const { data } = await axios.post("/api/users/:id/carts");
-  return data;
+export const fetchCart = createAsyncThunk("myCart", async (id) => {
+  try {
+    const { data } = await axios.get(`/api/users/${id}/cart`);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 });
+
 export const addCartProduct = createAsyncThunk(
   "addToCart",
   async (productId) => {
@@ -14,9 +19,13 @@ export const addCartProduct = createAsyncThunk(
   }
 );
 
+const initialState = {
+  info: {},
+};
+
 const cartSlice = createSlice({
-  name: "cart",
-  initialState: {},
+  name: "carts",
+  initialState,
   reducers: {
     clearCart: (state) => {
       return {};
@@ -24,7 +33,7 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCart.fulfilled, (state, action) => {
-      return action.payload;
+      state.info = action.payload;
     });
     builder.addCase(fetchCart.rejected, (state, action) => {
       return Error("Trouble Fetching Your Cart");

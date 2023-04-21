@@ -14,7 +14,7 @@ const SingleProduct = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const singleProduct = useSelector(selectSingleProduct);
-  const [quantity, editQty] = useState("");
+  const [quantity, editQty] = useState(1);
   //const { selectedQty } = useSelector((state) => state.stateValues);
 
   // const handleQuantityChange = async (evt) => {

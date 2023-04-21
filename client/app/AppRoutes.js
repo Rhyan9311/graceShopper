@@ -15,6 +15,7 @@ import Cart from "../features/cart/Cart";
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.me.id);
 
   useEffect(() => {
     dispatch(me());
@@ -32,7 +33,7 @@ const AppRoutes = () => {
             path="/products/:productId/"
             element={<SingleProduct />}
           />
-          <Route path="/cart" element={<Cart />} />
+          <Route path={`users/${userId}/cart`} element={<Cart />} />
         </Routes>
       ) : (
         <Routes>
@@ -54,7 +55,7 @@ const AppRoutes = () => {
             path="/products/:productId/"
             element={<SingleProduct />}
           />
-          <Route  path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       )}
     </div>
